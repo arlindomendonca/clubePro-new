@@ -52,21 +52,57 @@ html, body, [class*="css"], .stApp {
 }
 /* Esconde header e menu nativos — MAS preserva botão de abrir sidebar */
 header[data-testid="stHeader"] {
-    background: transparent;
-    height: 0;
+    background: transparent !important;
+    /* height: 0 cortava o botão de toggle; mantemos o espaço mas invisível */
+    min-height: 0 !important;
     z-index: 999;
 }
-/* Garante que o botão de toggle da sidebar fique visível e clicável */
-header[data-testid="stHeader"] button[kind="header"],
+/* Botão nativo de toggle (aparece quando sidebar esta colapsada) */
 [data-testid="stSidebarCollapsedControl"],
 [data-testid="collapsedControl"] {
     display: flex !important;
     visibility: visible !important;
-    z-index: 9999 !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 14px !important;
+    left: 14px !important;
+    z-index: 99999 !important;
     background: var(--navy-900) !important;
     color: white !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25),
+                0 0 0 1px rgba(52, 211, 153, 0.35) !important;
+    transition: all 200ms ease-in-out !important;
 }
+[data-testid="stSidebarCollapsedControl"]:hover,
+[data-testid="collapsedControl"]:hover {
+    background: var(--navy-800) !important;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35),
+                0 0 0 1px rgba(52, 211, 153, 0.55) !important;
+    transform: translateY(-1px);
+}
+[data-testid="stSidebarCollapsedControl"] button,
+[data-testid="collapsedControl"] button,
+[data-testid="stSidebarCollapsedControl"] svg,
+[data-testid="collapsedControl"] svg {
+    color: white !important;
+    fill: white !important;
+    background: transparent !important;
+    border: none !important;
+}
+/* Tambem estiliza o botão que fecha a sidebar quando ela está aberta */
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] button,
+section[data-testid="stSidebar"] button[kind="header"] {
+    color: var(--slate-400) !important;
+    background: transparent !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] button:hover,
+section[data-testid="stSidebar"] button[kind="header"]:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
 [data-testid="stToolbar"] { display: none !important; }
 [data-testid="stDecoration"] { display: none !important; }
 #MainMenu { display: none !important; }
@@ -134,7 +170,7 @@ section[data-testid="stSidebar"] .stButton > button {
     background: transparent !important;
     border: none !important;
     color: var(--slate-300) !important;
-    padding: 10px 14px !important;
+    padding: 10px 12px !important;
     border-radius: 8px !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
@@ -146,12 +182,25 @@ section[data-testid="stSidebar"] .stButton > button {
     min-height: 40px !important;
     height: auto !important;
     line-height: 1.3 !important;
+    gap: 12px !important;
+}
+/* Icones Material renderizados nativamente pelo Streamlit */
+section[data-testid="stSidebar"] .stButton > button span[data-testid*="Icon"],
+section[data-testid="stSidebar"] .stButton > button [data-testid="stIconMaterial"] {
+    color: var(--slate-400) !important;
+    font-size: 20px !important;
+    flex-shrink: 0 !important;
+    transition: color 200ms ease-in-out !important;
 }
 section[data-testid="stSidebar"] .stButton > button:hover {
     background: rgba(255, 255, 255, 0.04) !important;
     color: white !important;
     border: none !important;
     transform: none !important;
+}
+section[data-testid="stSidebar"] .stButton > button:hover span[data-testid*="Icon"],
+section[data-testid="stSidebar"] .stButton > button:hover [data-testid="stIconMaterial"] {
+    color: var(--slate-200) !important;
 }
 section[data-testid="stSidebar"] .stButton > button:focus,
 section[data-testid="stSidebar"] .stButton > button:focus-visible {
@@ -163,14 +212,18 @@ section[data-testid="stSidebar"] .stButton > button:active {
     background: rgba(255, 255, 255, 0.06) !important;
     transform: none !important;
 }
-/* ATIVO: gradient + barra esmeralda + glow */
+/* ATIVO: gradient + barra esmeralda + glow + icone esmeralda */
 section[data-testid="stSidebar"] .stButton > button[kind="primary"] {
     background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), rgba(16, 185, 129, 0.04)) !important;
     color: white !important;
     border-left: 3px solid var(--emerald-400) !important;
-    padding-left: 11px !important;
+    padding-left: 9px !important;
     font-weight: 600 !important;
     box-shadow: -3px 0 12px -2px rgba(52, 211, 153, 0.4) !important;
+}
+section[data-testid="stSidebar"] .stButton > button[kind="primary"] span[data-testid*="Icon"],
+section[data-testid="stSidebar"] .stButton > button[kind="primary"] [data-testid="stIconMaterial"] {
+    color: var(--emerald-400) !important;
 }
 section[data-testid="stSidebar"] .stButton > button[kind="primary"]:hover {
     background: linear-gradient(90deg, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.06)) !important;

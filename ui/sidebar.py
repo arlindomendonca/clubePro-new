@@ -1,44 +1,49 @@
 """
-Sidebar — usa o container nativo st.sidebar do Streamlit.
-Estrategia simplificada: prefixos Unicode no label do botao
-(em vez de SVG sobreposto, que e fragil).
+Sidebar — usa o container nativo st.sidebar + parametro icon= do st.button,
+que renderiza icones Material Symbols nativamente pelo Streamlit.
+
+Vantagens dessa abordagem:
+- Alinhamento perfeito (mesmo espacamento entre icone e texto em todos itens)
+- Funciona com sidebar colapsada (Streamlit mostra so o icone)
+- SVG nativo (sem risco de quebra por CSS injection)
 """
 import streamlit as st
 from ui.state import navigate_to
-from ui.icons import icon
+from ui.icons import icon as svg_icon
 
 
-# Caracteres Unicode geometricos limpos (renderizam consistente em qualquer plataforma)
+# Icones Material Symbols: https://fonts.google.com/icons
+# Sintaxe do Streamlit: ":material/icon_name:"
 NAV_GROUPS = [
     {
         "label": "PRINCIPAL",
         "items": [
-            {"id": "dashboard", "label": "▦   Dashboard"},
+            {"id": "dashboard", "label": "Dashboard", "icon": ":material/dashboard:"},
         ],
     },
     {
         "label": "FINANCEIRO",
         "items": [
-            {"id": "titulos",     "label": "◈   Títulos"},
-            {"id": "lancamentos", "label": "⇆   Lançamentos Reais"},
-            {"id": "conciliacao", "label": "⇌   Conciliação"},
+            {"id": "titulos",     "label": "Títulos",            "icon": ":material/account_balance_wallet:"},
+            {"id": "lancamentos", "label": "Lançamentos Reais",  "icon": ":material/swap_horiz:"},
+            {"id": "conciliacao", "label": "Conciliação",        "icon": ":material/compare_arrows:"},
         ],
     },
     {
         "label": "CADASTROS",
         "items": [
-            {"id": "favorecidos",   "label": "◉   Favorecidos"},
-            {"id": "categorias",    "label": "◆   Categorias"},
-            {"id": "centros_custo", "label": "▣   Centros de Custo"},
-            {"id": "bancos",        "label": "▤   Bancos"},
+            {"id": "favorecidos",   "label": "Favorecidos",        "icon": ":material/group:"},
+            {"id": "categorias",    "label": "Categorias",         "icon": ":material/sell:"},
+            {"id": "centros_custo", "label": "Centros de Custo",   "icon": ":material/business:"},
+            {"id": "bancos",        "label": "Bancos",             "icon": ":material/account_balance:"},
         ],
     },
     {
         "label": "CONFIGURAÇÕES",
         "items": [
-            {"id": "tenant",        "label": "◐   Dados do Tenant"},
-            {"id": "organizacoes",  "label": "▥   Gestão de Organizações"},
-            {"id": "configuracoes", "label": "⚙   Configurações"},
+            {"id": "tenant",        "label": "Dados do Tenant",        "icon": ":material/verified_user:"},
+            {"id": "organizacoes",  "label": "Gestão de Organizações", "icon": ":material/corporate_fare:"},
+            {"id": "configuracoes", "label": "Configurações",          "icon": ":material/settings:"},
         ],
     },
 ]
@@ -48,7 +53,7 @@ def render_sidebar() -> None:
     """Renderiza o conteudo da sidebar nativa do Streamlit."""
 
     # ---------- Logo / Brand ----------
-    logo_svg = icon("sparkles", size=18, color="white")
+    logo_svg = svg_icon("sparkles", size=18, color="white")
     st.markdown(
         f'<div class="fluxo-brand">'
         f'<div class="fluxo-brand-mark">{logo_svg}</div>'
@@ -71,6 +76,7 @@ def render_sidebar() -> None:
             is_active = st.session_state.active_page == item["id"]
             st.button(
                 item["label"],
+                icon=item["icon"],
                 key=f"nav_{item['id']}",
                 on_click=navigate_to,
                 args=(item["id"],),
