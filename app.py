@@ -28,14 +28,14 @@ from app_pages import dashboard, titulos, favorecidos, bancos, placeholder
 # Page configuration — sempre primeira chamada Streamlit
 # ---------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Fluxo · Finance Suite",
+    page_title="ClubePRO · Finance Suite",
     page_icon="💎",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
         "Get Help": None,
         "Report a bug": None,
-        "About": "Fluxo Finance Suite — SaaS Financeiro Multi-Tenant",
+        "About": "ClubePRO Finance Suite — SaaS Financeiro Multi-Tenant",
     },
 )
 

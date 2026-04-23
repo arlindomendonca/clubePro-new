@@ -1,4 +1,4 @@
-# 💎 Fluxo · Finance Suite
+# 💎 ClubePRO · Finance Suite
 
 SaaS Financeiro multi-tenant construído em **Streamlit + Supabase**, com aesthetic _Deep Corporate_ (azul-marinho + ardósia + acentos esmeralda).
 

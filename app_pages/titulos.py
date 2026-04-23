@@ -93,7 +93,7 @@ def render() -> None:
             if st.button("↗  Nova Receita", key="btn_new_receita", use_container_width=True, type="primary"):
                 _modal_novo_titulo("receita")
         with cb:
-            if st.button("↘  Nova Despesa", key="btn_new_despesa", use_container_width=True, type="primary"):
+            if st.button("↘  Nova Despesa", key="btn_new_despesa", use_container_width=True, type="secondary"):
                 _modal_novo_titulo("despesa")
 
     # ---------- Summary cards ----------

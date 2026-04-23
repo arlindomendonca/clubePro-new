@@ -1,19 +1,13 @@
 """
-Sidebar — usa o container nativo st.sidebar + parametro icon= do st.button,
-que renderiza icones Material Symbols nativamente pelo Streamlit.
-
-Vantagens dessa abordagem:
-- Alinhamento perfeito (mesmo espacamento entre icone e texto em todos itens)
-- Funciona com sidebar colapsada (Streamlit mostra so o icone)
-- SVG nativo (sem risco de quebra por CSS injection)
+Sidebar — usa o container nativo st.sidebar + parametro icon= do st.button.
+Brand: ClubePRO.
 """
 import streamlit as st
 from ui.state import navigate_to
 from ui.icons import icon as svg_icon
 
 
-# Icones Material Symbols: https://fonts.google.com/icons
-# Sintaxe do Streamlit: ":material/icon_name:"
+# Material Symbols: https://fonts.google.com/icons
 NAV_GROUPS = [
     {
         "label": "PRINCIPAL",
@@ -52,15 +46,18 @@ NAV_GROUPS = [
 def render_sidebar() -> None:
     """Renderiza o conteudo da sidebar nativa do Streamlit."""
 
-    # ---------- Logo / Brand ----------
+    # ---------- Brand: ClubePRO ----------
+    # O CSS posiciona o botao nativo de colapsar dentro deste container,
+    # ancorado a direita ao lado do texto.
     logo_svg = svg_icon("sparkles", size=18, color="white")
     st.markdown(
         f'<div class="fluxo-brand">'
         f'<div class="fluxo-brand-mark">{logo_svg}</div>'
         f'<div class="fluxo-brand-text">'
-        f'<div class="fluxo-brand-name">Fluxo<span>.</span></div>'
+        f'<div class="fluxo-brand-name">Clube<span>PRO</span></div>'
         f'<div class="fluxo-brand-tag">FINANCE SUITE</div>'
-        f'</div></div>'
+        f'</div>'
+        f'</div>'
         f'<div class="fluxo-brand-divider"></div>',
         unsafe_allow_html=True,
     )
