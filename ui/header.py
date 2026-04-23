@@ -1,6 +1,6 @@
 """
-Header — Tenant badge, Organizacao (selectbox), Saldo Consolidado, Usuario.
-HTML em linha unica para garantir renderizacao correta.
+Header — Tenant badge, Organizacao, Busca global, Notificacoes, Usuario.
+Layout replicando o design React de referencia.
 """
 import streamlit as st
 
@@ -18,10 +18,12 @@ def render_header() -> None:
     tenant = st.session_state.current_tenant
     user = st.session_state.current_user
     current_org = get_current_org()
-    saldo_total = sum(o["saldo"] for o in ORGANIZACOES)
 
-    c_tenant, c_org, c_saldo, c_user = st.columns(
-        [1.4, 2.2, 1.6, 1.4], gap="medium", vertical_alignment="center"
+    # Colunas: [Tenant] [Org] [Busca] [Notif] [User]
+    c_tenant, c_org, c_search, c_notif, c_user = st.columns(
+        [1.6, 2.0, 3.4, 0.4, 1.6],
+        gap="small",
+        vertical_alignment="center",
     )
 
     # ---------- Tenant ----------
@@ -38,7 +40,7 @@ def render_header() -> None:
 
     # ---------- Organizacao ----------
     with c_org:
-        org_options = {o["id"]: f"{o['nome']}  ·  {o['cidade']}" for o in ORGANIZACOES}
+        org_options = {o["id"]: o["nome"] for o in ORGANIZACOES}
         selected = st.selectbox(
             "Organização",
             options=list(org_options.keys()),
@@ -51,16 +53,25 @@ def render_header() -> None:
             set_organization(selected)
             st.rerun()
 
-    # ---------- Saldo Consolidado ----------
-    with c_saldo:
-        saldo_icon = icon("wallet", size=14, color="#047857", stroke=2.25)
+    # ---------- Busca Global ----------
+    with c_search:
+        st.text_input(
+            "Busca",
+            placeholder="🔍  Buscar títulos, favorecidos, lançamentos...",
+            key="header_search",
+            label_visibility="collapsed",
+        )
+
+    # ---------- Notificacoes ----------
+    with c_notif:
+        bell_svg = icon("bell", size=18, color="#475569", stroke=1.75)
         st.markdown(
-            f'<div class="fluxo-saldo">'
-            f'<div class="fluxo-saldo-icon">{saldo_icon}</div>'
-            f'<div class="fluxo-saldo-text">'
-            f'<div class="fluxo-saldo-label">SALDO CONSOLIDADO</div>'
-            f'<div class="fluxo-saldo-value">{_format_brl(saldo_total)}</div>'
-            f'</div></div>',
+            f'<div class="fluxo-notif-wrap">'
+            f'<button class="fluxo-notif-btn" title="Notificações">'
+            f'{bell_svg}'
+            f'<span class="fluxo-notif-dot"></span>'
+            f'</button>'
+            f'</div>',
             unsafe_allow_html=True,
         )
 

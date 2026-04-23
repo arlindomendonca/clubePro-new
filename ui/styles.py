@@ -123,12 +123,81 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid rgba(30, 41, 59, 0.6) !important;
     width: 260px !important;
     min-width: 260px !important;
+    transition: width 300ms ease-in-out, min-width 300ms ease-in-out !important;
 }
 section[data-testid="stSidebar"] > div {
     padding-top: 1rem !important;
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
+    transition: padding 300ms ease-in-out !important;
 }
+
+/* ==== SIDEBAR COLAPSADA ==== */
+/* O Streamlit esconde a sidebar com aria-expanded="false".
+   Em vez de deixar sumir, fixamos largura estreita e mostramos só icones. */
+section[data-testid="stSidebar"][aria-expanded="false"] {
+    width: 68px !important;
+    min-width: 68px !important;
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    margin-left: 0 !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] > div {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+
+/* Esconde textos quando colapsada, mantem icones */
+section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand-text,
+section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-nav-label {
+    display: none !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand {
+    justify-content: center;
+    padding: 4px 0 16px;
+}
+/* No botao, esconde apenas o texto, preservando o icone */
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button {
+    padding: 10px 0 !important;
+    justify-content: center !important;
+    font-size: 0 !important;  /* esconde texto */
+}
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button span[data-testid*="Icon"],
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button [data-testid="stIconMaterial"] {
+    font-size: 22px !important;
+    margin: 0 !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button[kind="primary"] {
+    padding: 10px 0 !important;
+    padding-left: 0 !important;
+    border-left: 3px solid var(--emerald-400) !important;
+}
+/* Esconde o divisor de grupos quando colapsada (ficaria com espaco vazio) */
+section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand-divider {
+    margin-bottom: 8px;
+}
+
+/* Botao nativo de COLAPSAR (dentro da sidebar aberta) — visivel e estilizado */
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"],
+section[data-testid="stSidebar"] button[data-testid="baseButton-headerNoPadding"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] button {
+    color: var(--slate-400) !important;
+    background: transparent !important;
+    border: none !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] button:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] svg {
+    color: white !important;
+    fill: currentColor !important;
+}
+
 /* Brand block */
 .fluxo-brand {
     display: flex; align-items: center; gap: 12px;
@@ -603,6 +672,57 @@ div[data-baseweb="select"] > div {
     background: white !important;
     min-height: 42px !important;
     font-size: 13px !important;
+}
+/* Selectbox de ORGANIZACAO — visual de pill com icone */
+.main [data-testid="stSelectbox"]:has(#org_selector) > div > div,
+.main div[data-baseweb="select"]:has(input[aria-label="Organização"]) {
+    /* Nao existe seletor facil para target so ele; aplicamos via Streamlit selectbox wrapper */
+}
+/* Like-for-like: o label "ORGANIZAÇÃO" acima do valor dentro do selectbox */
+.fluxo-org-label {
+    position: absolute;
+    top: 6px;
+    left: 44px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--slate-400);
+    letter-spacing: 0.12em;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ==== NOTIFICACOES ==== */
+.fluxo-notif-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fluxo-notif-btn {
+    position: relative;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 200ms ease-in-out;
+    color: var(--slate-600);
+}
+.fluxo-notif-btn:hover {
+    background: var(--slate-100);
+    border-color: var(--slate-200);
+    color: var(--slate-900);
+}
+.fluxo-notif-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--rose-500);
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.3);
 }
 /* ============================================================
    12. TABS / RADIO HORIZONTAL
