@@ -165,12 +165,17 @@ section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button p {
     display: none !important;
 }
 
-/* Ajusta o proprio botao quando colapsado: centraliza o icone */
+/* Ajusta o proprio botao quando colapsado: centraliza o icone + mais respiro */
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button {
-    padding: 10px 0 !important;
+    padding: 14px 0 !important;
     justify-content: center !important;
     gap: 0 !important;
     min-width: 0 !important;
+    min-height: 48px !important;
+    margin-bottom: 6px !important;
+}
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button > div {
+    justify-content: center !important;
 }
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button span[data-testid*="Icon"],
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button [data-testid="stIconMaterial"] {
@@ -179,7 +184,7 @@ section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button [data
 }
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button[kind="primary"] {
     border-left-width: 3px !important;
-    padding: 10px 0 !important;
+    padding: 14px 0 !important;
 }
 
 /* Esconde o divisor de grupos quando colapsada */
@@ -245,7 +250,7 @@ section[data-testid="stSidebar"] [data-testid="stSidebarCollapseButton"] svg {
 }
 /* Botoes dentro da sidebar */
 section[data-testid="stSidebar"] .stButton > button {
-    width: 100%;
+    width: 100% !important;
     background: transparent !important;
     border: none !important;
     border-left: 3px solid transparent !important;  /* espaco reservado */
@@ -256,6 +261,7 @@ section[data-testid="stSidebar"] .stButton > button {
     font-weight: 500 !important;
     text-align: left !important;
     justify-content: flex-start !important;
+    align-items: center !important;
     transition: all 200ms ease-in-out !important;
     margin-bottom: 2px !important;
     box-shadow: none !important;
@@ -263,6 +269,24 @@ section[data-testid="stSidebar"] .stButton > button {
     height: auto !important;
     line-height: 1.3 !important;
     gap: 12px !important;
+    display: flex !important;
+}
+/* FORCE alinhamento a esquerda: o container interno que Streamlit usa.
+   Sem isso, o texto fica centralizado por conta de estilos baseweb. */
+section[data-testid="stSidebar"] .stButton > button > div {
+    justify-content: flex-start !important;
+    width: auto !important;
+    flex: 0 1 auto !important;
+}
+section[data-testid="stSidebar"] .stButton > button > div[data-testid="stMarkdownContainer"] {
+    text-align: left !important;
+    width: auto !important;
+    flex: 1 1 auto !important;
+}
+section[data-testid="stSidebar"] .stButton > button > div[data-testid="stMarkdownContainer"] > p {
+    text-align: left !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
 }
 /* Icones Material renderizados nativamente pelo Streamlit */
 section[data-testid="stSidebar"] .stButton > button span[data-testid*="Icon"],
@@ -270,6 +294,8 @@ section[data-testid="stSidebar"] .stButton > button [data-testid="stIconMaterial
     color: var(--slate-400) !important;
     font-size: 20px !important;
     flex-shrink: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
     transition: color 200ms ease-in-out !important;
 }
 section[data-testid="stSidebar"] .stButton > button:hover {
@@ -321,15 +347,24 @@ section[data-testid="stSidebar"] hr { display: none !important; }
     max-width: 1600px !important;
 }
 /* ============================================================
-   5. HEADER — Tenant + Org + Saldo + User
+   5. HEADER — Tenant + Org + Busca + Notif + User
    ============================================================ */
 .fluxo-header-anchor { height: 0; margin: 0; }
+
+/* Todas as celulas do header compartilham a mesma altura para alinhamento vertical */
+.fluxo-tenant-badge,
+.fluxo-user,
+.fluxo-notif-wrap {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+}
+
 .fluxo-tenant-badge {
-    display: flex; align-items: center; gap: 10px;
-    padding: 4px 0;
+    gap: 10px;
 }
 .fluxo-tenant-mark {
-    width: 34px; height: 34px;
+    width: 36px; height: 36px;
     border-radius: 8px;
     background: linear-gradient(135deg, var(--slate-700), var(--slate-900));
     display: flex; align-items: center; justify-content: center;
@@ -346,7 +381,31 @@ section[data-testid="stSidebar"] hr { display: none !important; }
     font-size: 13px; font-weight: 700; color: var(--slate-800);
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-/* Saldo */
+
+/* Selectbox do header — altura uniforme */
+.main [data-testid="stSelectbox"] {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+.main [data-testid="stSelectbox"] > div {
+    width: 100%;
+}
+
+/* Input do header — altura uniforme */
+.main [data-testid="stTextInput"] {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+.main [data-testid="stTextInput"] > div {
+    width: 100%;
+}
+.main [data-testid="stTextInput"] input {
+    height: 44px !important;
+}
+
+/* Saldo (nao usado no header atual mas mantido caso voltemos) */
 .fluxo-saldo {
     display: flex; align-items: center; gap: 10px;
     padding: 8px 14px;
