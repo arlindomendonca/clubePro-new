@@ -147,7 +147,7 @@ section[data-testid="stSidebar"][aria-expanded="false"] > div {
     padding-right: 0.5rem !important;
 }
 
-/* Esconde textos quando colapsada, mantem icones */
+/* Esconde TUDO que seja texto quando colapsada */
 section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand-text,
 section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-nav-label {
     display: none !important;
@@ -156,11 +156,21 @@ section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand {
     justify-content: center;
     padding: 4px 0 16px;
 }
-/* No botao, esconde apenas o texto, preservando o icone */
+
+/* CRITICO: esconde o container de texto do label dentro do botao.
+   Streamlit renderiza o label dentro de <div data-testid="stMarkdownContainer"><p>Texto</p></div>.
+   Escondendo esse container (mas NAO o stIconMaterial), so o icone permanece visivel. */
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button > div[data-testid="stMarkdownContainer"],
+section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button p {
+    display: none !important;
+}
+
+/* Ajusta o proprio botao quando colapsado: centraliza o icone */
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button {
     padding: 10px 0 !important;
     justify-content: center !important;
-    font-size: 0 !important;  /* esconde texto */
+    gap: 0 !important;
+    min-width: 0 !important;
 }
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button span[data-testid*="Icon"],
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button [data-testid="stIconMaterial"] {
@@ -168,11 +178,11 @@ section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button [data
     margin: 0 !important;
 }
 section[data-testid="stSidebar"][aria-expanded="false"] .stButton > button[kind="primary"] {
+    border-left-width: 3px !important;
     padding: 10px 0 !important;
-    padding-left: 0 !important;
-    border-left: 3px solid var(--emerald-400) !important;
 }
-/* Esconde o divisor de grupos quando colapsada (ficaria com espaco vazio) */
+
+/* Esconde o divisor de grupos quando colapsada */
 section[data-testid="stSidebar"][aria-expanded="false"] .fluxo-brand-divider {
     margin-bottom: 8px;
 }
@@ -238,6 +248,7 @@ section[data-testid="stSidebar"] .stButton > button {
     width: 100%;
     background: transparent !important;
     border: none !important;
+    border-left: 3px solid transparent !important;  /* espaco reservado */
     color: var(--slate-300) !important;
     padding: 10px 12px !important;
     border-radius: 8px !important;
@@ -264,7 +275,7 @@ section[data-testid="stSidebar"] .stButton > button [data-testid="stIconMaterial
 section[data-testid="stSidebar"] .stButton > button:hover {
     background: rgba(255, 255, 255, 0.04) !important;
     color: white !important;
-    border: none !important;
+    border-left-color: transparent !important;
     transform: none !important;
 }
 section[data-testid="stSidebar"] .stButton > button:hover span[data-testid*="Icon"],
@@ -275,18 +286,16 @@ section[data-testid="stSidebar"] .stButton > button:focus,
 section[data-testid="stSidebar"] .stButton > button:focus-visible {
     box-shadow: none !important;
     outline: none !important;
-    border: none !important;
 }
 section[data-testid="stSidebar"] .stButton > button:active {
     background: rgba(255, 255, 255, 0.06) !important;
     transform: none !important;
 }
-/* ATIVO: gradient + barra esmeralda + glow + icone esmeralda */
+/* ATIVO: apenas ativa a cor da borda (padding fica igual aos inativos) */
 section[data-testid="stSidebar"] .stButton > button[kind="primary"] {
     background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), rgba(16, 185, 129, 0.04)) !important;
     color: white !important;
     border-left: 3px solid var(--emerald-400) !important;
-    padding-left: 9px !important;
     font-weight: 600 !important;
     box-shadow: -3px 0 12px -2px rgba(52, 211, 153, 0.4) !important;
 }
@@ -296,6 +305,7 @@ section[data-testid="stSidebar"] .stButton > button[kind="primary"] [data-testid
 }
 section[data-testid="stSidebar"] .stButton > button[kind="primary"]:hover {
     background: linear-gradient(90deg, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.06)) !important;
+    border-left-color: var(--emerald-400) !important;
 }
 /* Esconde divisor padrao dentro da sidebar */
 section[data-testid="stSidebar"] hr { display: none !important; }
